@@ -1,0 +1,36 @@
+﻿@model BO.TblUser
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">🔑 Đăng nhập</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <form asp-action="Login" method="post">
+        <div class="mb-3">
+            <label class="form-label">Tài khoản</label>
+            <input asp-for="UserId" class="form-control" placeholder="Nhập tài khoản">
+            <span asp-validation-for="UserId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Mật khẩu</label>
+            <input asp-for="Password" class="form-control" type="password" placeholder="Nhập mật khẩu">
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 mt-3">Đăng nhập</button>
+    </form>
+
+    <a  asp-area="" asp-controller="Register" asp-action="Index">Register</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

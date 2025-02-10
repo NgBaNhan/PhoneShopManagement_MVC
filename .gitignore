@@ -1,0 +1,45 @@
+# Build Folders
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.vscode/
+*.vs/
+*.sln.cache
+*.csproj.user
+
+# Logs
+*.log
+
+# Dependencies
+packages/
+node_modules/
+
+# Publish outputs
+*.publish/
+*.deploy/
+
+# Configuration files
+appsettings*.json
+secrets.json
+
+# Visual Studio Code
+.vscode/
+
+# ReSharper
+*_Resharper*/
+
+# Rider
+.idea/
+
+# NuGet
+*.nupkg
+packages.lock.json
+
+# Entity Framework Migrations
+Migrations/
+
+# Generated files
+*.generated.cs

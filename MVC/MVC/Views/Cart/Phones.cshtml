@@ -1,0 +1,105 @@
+﻿@using BO
+@using MVC
+
+@{
+    ViewData["Title"] = "Sản phẩm";
+}
+@model object
+
+@{
+    List<BO.TblMobile> phones;
+    List<string> wishList = new List<string>(); // Mặc định danh sách rỗng khi chưa đăng nhập
+
+    if (Model is List<BO.TblMobile> list)
+    {
+        phones = list; // Nếu Model là danh sách điện thoại (khi chưa đăng nhập)
+    }
+    else if (Model is WishListDTO dto)
+    {
+        phones = dto.Products; // Nếu Model là DTO (khi đã đăng nhập)
+        wishList = dto.WishList;
+    }
+    else
+    {
+        phones = new List<BO.TblMobile>(); // Tránh lỗi NullReferenceException
+    }
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">📱 Danh Sách Điện Thoại</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div id="successAlert" class="alert alert-success d-flex align-items-center fade show position-fixed top-10 end-0 p-3 shadow-lg"
+             role="alert" style="z-index: 1050; max-width: 400px; border-radius: 10px;">
+            <i class="fas fa-check-circle me-2" style="font-size: 1.5rem;"></i>
+            <div>@TempData["Success"]</div>
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Tên điện thoại</th>
+                <th>Giá</th>
+                <th>Mô tả</th>
+                <th>Năm sản xuất</th>
+                <th>Số lượng tồn</th>
+                <th>Hình ảnh</th>
+                <th>Tương tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var phone in phones)
+            {     
+                <tr>
+                    <td>@phone.MobileName</td>
+                    <td>@phone.Price</td>
+                    <td>@phone.Description</td>
+                    <td>@phone.YearOfProduction</td>
+                    <td>@phone.Quantity</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(phone.Images))
+                        {
+                            <img src="/images/@phone.Images" alt="Hình ảnh" class="img-thumbnail" width="100">
+                        }
+                        else
+                        {
+                            <span>Không có ảnh</span>
+                        }
+                    </td>
+                    
+                    <td>
+                        <div class="d-flex justify-content-center">
+                        <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                            <input type="hidden" name="mobileId" value="@phone.MobileId" />
+                                <input type="number" name="quantity" value="1" min="1" class="form-control" required />
+                                <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                            <button type="submit" class="btn btn-primary w-100 mt-2">Thêm Giỏ Hàng</button>
+                        </form>
+
+                        @if (wishList.Contains(phone.MobileId))
+                        {
+                            <form asp-controller="WishList" asp-action="DeleteFromWishList" method="post">
+                                <input type="hidden" name="mobileId" value="@phone.MobileId" />
+                                    <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                                <button type="submit" class="btn  w-100 mt-2">⭐</button>
+                            </form>
+                        }
+                        else 
+                        {
+                            <form asp-controller="WishList" asp-action="AddToWishList" method="post">
+                                <input type="hidden" name="mobileId" value="@phone.MobileId" />
+                                    <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                                <button type="submit" class="btn  w-100 mt-2">☆</button>
+                            </form>
+                        }
+                        </div>
+                    </td>
+
+                </tr>
+               
+            }
+        </tbody>
+    </table>
+</div>
