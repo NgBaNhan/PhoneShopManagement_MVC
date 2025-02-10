@@ -1,0 +1,58 @@
+﻿@using BO
+
+@{
+    ViewData["Title"] = "Thông tin cá nhân";
+}
+@model TblUser
+
+
+
+<h2 class="text-center text-primary">Thông tin cá nhân</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div id="successAlert" class="alert alert-success d-flex align-items-center fade show position-fixed top-10 end-0 p-3 shadow-lg"
+         role="alert" style="z-index: 1050; max-width: 400px; border-radius: 10px;">
+        <i class="fas fa-check-circle me-2" style="font-size: 1.5rem;"></i>
+        <div>@TempData["Success"]</div>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<form asp-controller="User" asp-action="UpdateProfile" method="post" class="container w-50 p-4 border rounded shadow bg-light">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3 text-primary">
+        <label class="form-label">Tài khoản (không thể thay đổi)</label>
+        <input type="text" name="UserId" value="@Model.UserId" class="form-control" disabled />
+    </div>
+
+    <div class="mb-3 text-primary">
+        <label class="form-label">Họ và tên</label>
+        <input type="text" name="FullName" value="@Model.FullName" class="form-control" />
+        <span class="text-danger">@Html.ValidationMessageFor(model => model.FullName)</span>
+    </div>
+
+    <div class="mb-3 text-primary">
+        <label class="form-label">Mật khẩu</label>
+        <input type="password" name="Password" value="@Model.Password" class="form-control" />
+        <span class="text-danger">@Html.ValidationMessageFor(model => model.Password)</span>
+    </div>
+
+    <div class="mb-3 text-primary">
+        <label class="form-label">Số điện thoại</label>
+        <input type="text" name="Phone" value="@Model.Phone" class="form-control" />
+        <span class="text-danger">@Html.ValidationMessageFor(model => model.Phone)</span>
+    </div>
+
+    <div class="mb-3 text-primary">
+        <label class="form-label">Địa chỉ</label>
+        <input type="text" name="Address" value="@Model.Address" class="form-control" />
+        <span class="text-danger">@Html.ValidationMessageFor(model => model.Address)</span>
+    </div>
+
+    <div class="text-center ">
+        <input type="hidden" name="Role" value="US" class="form-control" />
+        <input type="hidden" name="UserId" value="@Model.UserId" class="form-control" />
+        <button type="submit" class="btn btn-primary px-4">Cập nhật</button>
+    </div>
+</form>

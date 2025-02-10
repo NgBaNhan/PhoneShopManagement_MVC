@@ -42,8 +42,8 @@ namespace Repository
 
             try
             {
-                dBContext.Entry(user).State = EntityState.Detached;
-                
+                dBContext.ChangeTracker.Clear();
+
                 dBContext.TblUsers.Add(user);
                 dBContext.SaveChanges();
                 
@@ -53,6 +53,28 @@ namespace Repository
             catch (Exception e)
             {
                 
+                throw new Exception(e.Message);
+            }
+            return result;
+        }
+        public bool updateProfile(TblUser user)
+        {
+            bool result = false;
+
+
+            try
+            {
+                dBContext.ChangeTracker.Clear();
+
+                dBContext.Entry(user).State = EntityState.Modified;
+                dBContext.SaveChanges();
+
+                result = true;
+
+            }
+            catch (Exception e)
+            {
+
                 throw new Exception(e.Message);
             }
             return result;

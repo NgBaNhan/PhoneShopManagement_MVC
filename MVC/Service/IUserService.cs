@@ -13,5 +13,6 @@ namespace Service
         public TblUser getAccountByID(string id);
         public List<TblUser> getAllUser();
         public bool registerUser(TblUser user);
+        public bool updateProfile(TblUser user);
     }
 }

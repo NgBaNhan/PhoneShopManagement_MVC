@@ -1,4 +1,8 @@
 ﻿<!DOCTYPE html>
+@{
+    var username = Context.Session.GetString("User");
+}
+
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -48,9 +52,12 @@
                             @if (Context.Session.GetString("User") != null)
                             {
                                 <div class="d-flex align-items-center">
-                                    <span class="fw-bold text-primary me-3">
-                                        <i class="fas fa-user-circle"></i> @Context.Session.GetString("User")
-                                    </span>
+                                    @if (!string.IsNullOrEmpty(username))
+                                    {
+                                        <span class="fw-bold text-primary me-3">
+                                            <a asp-controller="User" asp-action="Index" class="fas fa-user-circle">@username</a>
+                                        </span>
+                                    }
                                     <a asp-controller="Login" asp-action="Logout" class="btn btn-danger ms-3">Đăng xuất</a>
                                 </div>
                             }

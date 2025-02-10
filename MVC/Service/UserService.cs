@@ -13,5 +13,6 @@ namespace Service
         public TblUser getAccountByID(string id) => UserRepo.Instance.getAccountByID(id);
         public List<TblUser> getAllUser() => UserRepo.Instance.getAllUser();
         public bool registerUser(TblUser user) => UserRepo.Instance.registerUser(user);
+        public bool updateProfile(TblUser user) => UserRepo.Instance.updateProfile(user);
     }
 }
